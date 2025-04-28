@@ -1,0 +1,40 @@
+function [S] = ConMvSs(fea,c)
+S = cell(1,3);
+X = normalize_M(fea, 1);
+smp = size(fea,2);
+k = c;
+coeff = pca(X');
+Xpca = X' * coeff(:, 1:k);
+P = corr(Xpca');
+S{1} = abs(P);
+[U, ~] = NNDSVD(X, k, flag);   
+V = U' * X;
+Znmf = V' * V;
+S{2} = (abs(Znmf) + abs(Znmf'))/2;
+num_ker = 4;
+K = zeros(smp, smp, num_ker);
+Ktemp = zeros(smp, smp);
+options.KernelType = 'Gaussian';
+K(:, :, 1) = construct_kernel(X', [], options);
+options.KernelType = 'Polynomial';
+options.d = 3;
+K(:, :, 2) = construct_kernel(X', [], options);
+options.KernelType = 'InvPloyPlus';
+options.c = 0.01; 
+options.d = 1;
+K(:, :, 3) = construct_kernel(X', [], options);
+for p = 1 : num_ker-1
+    Ktemp = Ktemp + K(:, :, p);
+end
+K(:, :, num_ker) = Ktemp / 3;
+K = kcenter(K);
+K = knorm(K);
+Kp = K(:, :, num_ker);
+U = my_kernel_kmeans(Kp, c);
+Stmp = U * U';
+S{3} = (abs(Stmp));
+for i = 1 : length(S)
+    S{i} = (S{i}+S{i}')/2; 
+    S{i} = S{i} - diag(diag(S{i}));
+end
+end
