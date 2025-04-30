@@ -3,7 +3,7 @@ clear;
 clc;
 addpath(genpath('LIB'));
 addpath(genpath('ClusteringMeasure'));
-load('./Data_Ting.mat')
+load('./Ting.mat')
 num_cluster = max(unique(true_labs));
 alpha = 1e-4;
 lambda = 1e-3;
