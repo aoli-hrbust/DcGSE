@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 close all; warning off;
 clear;
 % clc;
@@ -10,4 +11,17 @@ alpha = 1e-4;
 lambda = 1e-3;
 delta = 1e-4;
 %% run
+=======
+close all; warning off;
+clear;
+clc;
+addpath(genpath('LIB'));
+addpath(genpath('ClusteringMeasure'));
+load('./Ting.mat')
+num_cluster = max(unique(true_labs));
+alpha = 1e-4;
+lambda = 1e-3;
+delta = 1e-4;
+% run
+>>>>>>> e1248d18d20a74f08f96760f80be9bf1df35eab1
 [U] = DcGSE(in_X, true_labs, alpha, lambda, delta);
