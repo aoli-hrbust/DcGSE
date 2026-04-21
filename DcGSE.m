@@ -71,7 +71,7 @@ k = num_cluster;
 size_Qs = [num_smp, num_cluster, num_view];
 [Qs,F,H,G,C,Es,J,Theta,beta_s,Eij] = Initi(in_X,num_view,k);
 tempF = F;
-disp('Updateing......')
+disp('Updating......')
 for iter = 1 : max_iter
     S = update_S(F,Qs,C,Es,Theta,beta_s,delta,Eij);
     C = update_C(S,Es,Theta,H,G,num_smp,num_view,alpha,delta);
